@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "557247597974",
+    "firebase_url": "https://letter2feature.firebaseio.com",
+    "project_id": "letter2feature",
+    "storage_bucket": "letter2feature.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557247597974:android:b3515e7faccbb1b1",
+        "android_client_info": {
+          "package_name": "com.deen812.letter2feature"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "557247597974-tvnicjpq1lsp7lh4dk54e8pqo5pme00d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9kDTtgobl37N0eMdVuHFw0wtp_jZI_pc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
