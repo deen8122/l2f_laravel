@@ -22,15 +22,6 @@ class LetterController extends Controller {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function create() {
-		return view('letter.create');
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
@@ -47,7 +38,7 @@ class LetterController extends Controller {
 		}
 		$letter = Letter::create($input);
 		$this->saveImages($request, $letter);
-		return $this->sendResponse($letter->toArray(), 'Item created successfully.');
+		return $this->sendResponse($letter->toArray(), 'Item created successfully');
 	}
 
 	public function saveImages(Request $request, Letter $letter) {
@@ -65,7 +56,7 @@ class LetterController extends Controller {
 				$images->filename_origin = $filenameWithExt;
 				$images->filename = $newFileName;
 				$images->save();
-			}			
+			}
 		}
 	}
 
@@ -75,9 +66,11 @@ class LetterController extends Controller {
 	 * @param  \App\Models\Letter  $letter
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($id) {
-		$user = auth()->user();
-		$letter = Letter::where('user_id', $user->id)->find($id);
+	public function show(int $id) {
+		$letter = Letter::HasUser(auth()->user()->id)->find($id);
+		if (!$letter) {
+			return $this->sendError('Item not found', false);
+		}
 		return $letter;
 	}
 
@@ -88,41 +81,17 @@ class LetterController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(Letter $letter) {
-		$user = auth()->user();
-		//dd($user);
-		return view('letter.edit', compact('letter'));
+		return $letter = Letter::where('user_id', $user->id)->find($id);
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Get all not sending letters for current user
 	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  \App\Models\Letter  $letter
-	 * @return \Illuminate\Http\Response
+	 * 
+	 * @return int
 	 */
-	public function update(Request $request, Letter $letter) {
-		/*
-		  $request->validate([
-		  'title' => 'required',
-		  'description' => 'required',
-		  ]);
-		 */
-		$letter->update($request->all());
-		$user = auth()->user();
-		//\App\Jobs\ProcessSendingEmail::dispatch($user);
-		//new \App\Jobs\ProcessSendingEmail($user);
-		$this->dispatch(new ProcessSendingEmail($user));
-		return redirect()->route('letter.index')->with('success', 'Post updated successfully');
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\Models\Letter  $letter
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy(Letter $letter) {
-		//
+	public function count() {
+		return response()->json(["count" => Letter::HasUser(auth()->user()->id)->count()]);
 	}
 
 }

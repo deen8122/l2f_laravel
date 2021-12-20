@@ -25,7 +25,7 @@ class AuthController extends Controller {
 		$token = $user->createToken($request->device_name)->plainTextToken;
 		/*
 		 *  return response()
-            ->json(['data' => $user,'access_token' => $token, 'token_type' => 'Bearer', ]);
+		  ->json(['data' => $user,'access_token' => $token, 'token_type' => 'Bearer', ]);
 		 */
 		return response()->json(['token' => $token], 200);
 	}
@@ -44,7 +44,31 @@ class AuthController extends Controller {
 		if (!$user || !Hash::check($request->password, $user->password)) {
 			return response()->json(['error' => 'Password or Login incorrect'], 401);
 		}
-		return response()->json(['token' => $user->createToken($request->device_name)->plainTextToken]);
+		/*
+		 * Если есть PUSH токен сохраняем
+		 */
+		//log2file('_request', $_POST);
+		if ($request->push_token) {
+			if (!$user->pushTokens()->exists()) {
+				//log2file('_request', $_POST);
+				//$user->pushTokens->add($request->push_token);
+				\App\Models\Pushtoken::create([
+					'token' => $request->push_token,
+					'user_id' => $user->id,
+					'device' => $request->device_name]);
+			}
+			//$user->pushTokens->add($request->push_token);
+		}
+
+		$token = '';
+		if ($user->tokens()->exists()) {
+			//$t = $user->tokens()->first();
+			$token = $user->tokens()->first()->token;
+			
+		}else {
+			$token = $user->createToken($request->device_name)->plainTextToken;
+		}
+		return response()->json(['token' => $token]);
 	}
 
 	// method for user logout and delete token

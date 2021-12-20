@@ -1,8 +1,8 @@
 <!-- PANEL -->
 <div data-role="panel" id="mypanel" data-position="left" data-display="overlay">
     <ul data-role="listview" data-inset="true">
-	<li><span class="icon1 icon-send"></span><a onclick="window.location = ''" 
-						    data-onclick='$.mobile.changePage("#main", {transition: "slideup"});' class="deen-btn lang" data-lang="menu_send">Отправить</a></li>
+	<li><span class="icon1 icon-send"></span>
+	    <a onclick="window.location = ''" data-onclick='$.mobile.changePage("#main", {transition: "slideup"});' class="deen-btn lang" data-lang="menu_send">Отправить</a></li>
 	<li><span class="icon1 icon-inbox"></span><a  href="#inbox" class="deen-btn lang" data-lang="menu_letters">Письма <span class="inbox-col" id="inbox-col"></span></a></li>
 	<li><span class="icon1 icon-about"></span><a onclick='$.mobile.changePage("#about", {transition: "slideup"});' class="deen-btn lang" data-lang="menu_about">О программе</a></li>
 	<li class="hide_in_full_version"><span class="icon1 icon-buy"></span><a  onclick='$.mobile.navigate("#paypage");' class="deen-btn lang" data-lang="menu_fullversion">Полная версия</a></li>
@@ -19,11 +19,11 @@
 	<center>
 	    <a href="#" 
 	       onclick='testInternet(function () {
-                                           // hideLeftBlock("lefthelp", 1);
-                                           window.open("market://details?id=com.deen812.letter2feature", "_system");
-                                       }, function () {
-                                           alert2("Нет интернет соединения!");
-                                       });' class="lang" data-lang="banner_btn1">Оценить!</a>
+                               // hideLeftBlock("lefthelp", 1);
+                               window.open("market://details?id=com.deen812.letter2feature", "_system");
+                           }, function () {
+                               alert2("Нет интернет соединения!");
+                           });' class="lang" data-lang="banner_btn1">Оценить!</a>
 	</center>
 
     </div>

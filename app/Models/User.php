@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable {
 
 	use HasFactory,
+   //  HasPushtokens,
      Notifiable,
      HasApiTokens;
 
@@ -52,6 +53,10 @@ class User extends Authenticatable {
 				$item->name = $item->email;
 			}
 		});
+	}
+
+	public function pushTokens() {
+		return $this->hasMany(Pushtoken::class);
 	}
 
 }

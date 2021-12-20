@@ -12,13 +12,12 @@ class TestController extends Controller {
 		$user = auth()->user();
 		l($user);
 	}
-	
-	
+
 	public function index() {
 		$user = auth()->user();
 		//$this->dispatch(new ProcessSendingEmail($user));
 		$letters = Letter::orderBy('id', 'desc')
-			->where('user_id',$user->id)
+			->where('user_id', $user->id)
 			->paginate(10); // Трюк для получения пагинатора
 		//return view('letter.index')->with('letters', $letters);
 		l($letters);
@@ -46,9 +45,9 @@ class TestController extends Controller {
 			'text' => 'required',
 		]);
 
-		$letter =Letter::create($request->all());
+		$letter = Letter::create($request->all());
 
-		return redirect()->route('letter.edit',$letter)->with('success', 'Post created successfully.');
+		return redirect()->route('letter.edit', $letter)->with('success', 'Post created successfully.');
 	}
 
 	/**
@@ -111,7 +110,13 @@ class TestController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function test() {
-		\App\Services\PushService::checkLetters();
+		$user = auth()->user();
+		$user->pushTokens()->save(
+			new \App\Models\Pushtoken(
+				['token' =>"eTZ40KQ9TmGVu05TMOXY7n", 
+					'device' => 'nokia 3310']));
+		l($user->pushTokens);
+		//\App\Services\PushService::checkLetters();
 	}
 
 }

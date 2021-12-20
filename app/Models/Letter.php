@@ -83,4 +83,9 @@ class Letter extends Model {
 		
 	}
 
+	public function scopeHasUser($query) {
+		$user = auth()->user();
+		return $query->where('user_id', $user->id);
+	}
+	
 }

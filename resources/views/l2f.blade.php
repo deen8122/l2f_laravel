@@ -44,7 +44,12 @@
             <!-- PANEL -->
             <div data-theme="a" data-role="header" style="z-index: 999">
                 <a href="#mypanel" id="top-menu"><span class="icon2 icon-menu"></span></a>
-                <h3></h3>
+                <h3>Letter2Future.ru</h3>
+		@if (Auth::check())
+		<a href="/profile">{{ Auth::user()->name }}</a>
+		@else
+		<a href="/login">войти</a>
+		@endif
             </div>
             <div data-role="content">
 		@include('l2f.letter_send')              

@@ -31,45 +31,6 @@ class UserController extends Controller {
 	}
 
 	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
-	 */
-	public function add(Request $request) {
-		$input = $request->all();
-		$validator = Validator::make($input, [
-				'text' => 'required',
-				'future_time' => 'required',
-		]);
-		if ($validator->fails()) {
-			return $this->sendError('Validation Error.', $validator->errors());
-		}
-		$letter = Letter::create($input);
-		$this->saveImages($request, $letter);
-		return $this->sendResponse($letter->toArray(), 'Item created successfully.');
-	}
-
-	public function saveImages(Request $request, Letter $letter) {
-		if ($request->hasFile('images')) {
-			$files = $request->file('images');
-			foreach ($files as $file) {
-				$filenameWithExt = $file->getClientOriginalName();
-				$extention = $file->getClientOriginalExtension();
-				$filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-				$newFileName = $letter->id . '_' . $filename . "." . $extention;
-				$fileNameToStore = 'image/' . $newFileName;
-				$path = $file->storeAs('public', $fileNameToStore);
-				$images = new Image;
-				$images->letter_id = $letter->id;
-				$images->filename_origin = $filenameWithExt;
-				$images->filename = $newFileName;
-				$images->save();
-			}			
-		}
-	}
-
-	/**
 	 * Display the specified resource.
 	 *
 	 * @param  \App\Models\Letter  $letter
@@ -92,11 +53,11 @@ class UserController extends Controller {
 		//dd($user);
 		return view('letter.edit', compact('letter'));
 	}
-public function profile() {
-		$user = auth()->user();
-		//dd($user);
-		return $user;
+
+	public function profile() {
+		return auth()->user();
 	}
+
 	/**
 	 * Update the specified resource in storage.
 	 *
@@ -104,29 +65,4 @@ public function profile() {
 	 * @param  \App\Models\Letter  $letter
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, Letter $letter) {
-		/*
-		  $request->validate([
-		  'title' => 'required',
-		  'description' => 'required',
-		  ]);
-		 */
-		$letter->update($request->all());
-		$user = auth()->user();
-		//\App\Jobs\ProcessSendingEmail::dispatch($user);
-		//new \App\Jobs\ProcessSendingEmail($user);
-		$this->dispatch(new ProcessSendingEmail($user));
-		return redirect()->route('letter.index')->with('success', 'Post updated successfully');
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\Models\Letter  $letter
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy(Letter $letter) {
-		//
-	}
-
 }

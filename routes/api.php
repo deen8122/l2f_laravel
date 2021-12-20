@@ -19,12 +19,15 @@ use App\Http\Controllers\UserController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/profile', [UserController::class, 'profile']);
 	Route::post('/logout', [AuthController::class, 'logout']);
 	
-	Route::get('/letter/{id}', [LetterController::class, 'show']);
+	
+	Route::get('/letter/count', [LetterController::class, 'count']);
 	Route::post('/letter/add', [LetterController::class, 'add']);
+	Route::get('/letter/{id}', [LetterController::class, 'show']);
 });
 
 /*

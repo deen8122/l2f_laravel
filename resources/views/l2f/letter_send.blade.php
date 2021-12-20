@@ -2,22 +2,23 @@
     <div class="div-center xdiv-color-1">
 	<!-- <h4>Текст письма</h4> -->
 
-
-
-	<textarea class="lang" data-lang="msgPH" data-langtype="placeholder" id="message" placeholder="Введите текст письма" style="min-height: 150px!important;"></textarea>
+	<textarea class="lang" 
+		  data-lang="msgPH" 
+		  data-langtype="placeholder" 
+		  id="message" 
+		  placeholder="Введите текст письма" 
+		  style="min-height: 150px!important;"></textarea>
 	<br/> <br/>
-	<a id="select-audio-btn"  class="colored-a lang" data-lang="addaudio" onclick="Audio_addNewFile()">Прикрепить аудио</a>
-	<div id="main-audio-list">  
-	</div>
+
 	<div class="clear"></div>
 	<br/>
 	<a id="select-photo-btn"  class="lang" data-lang="addpicture" onclick="picture_select()">Прикрепить фото</a>
 	<input type="file"id="image" name="images[]">
-	
+
 	<div id="smallImage">  
 
 	</div>
-	
+
 	<div style="clear: both"></div>
     </div>
 
@@ -28,11 +29,11 @@
 		<td>
 		    <span class="lang" data-lang="date" >Дата:</span>
 		    <input 
-			type="text" 
+			type="date" 
 			id="date" 
 			class="datepicker-here"  
 			data-date-format="yyyy-mm-dd" 
-			readonly="readonly" 
+
 			data-position="top left"
 			>
 		</td>
@@ -50,15 +51,13 @@
 	    <option value="3" class="lang" data-lang="option4"> 3 месяца</option>
 	    <option value="6" class="lang" data-lang="option5"> пол года</option>
 	    <option value="12" class="lang" data-lang="option6"> 1 год</option>
+	    <option value="24" class="lang" data-lang="option6"> 2 года</option>
+	    <option value="60" class="lang" data-lang="option6"> 5 лет</option>
 	</select>
     </div>  
 
     <div class="div-center xdiv-color-2 xshow_in_full_version">
-	<a class="colored-a lang" onclick=" if (window.localStorage.getItem('full_version') != '1') {
-                        alert2('Извините, но функция доступна только для полной версии. (@_@)');
-                        return false;
-                    }
-                    $('.email_to_wrap').show(100)"  data-lang="add_emails">Добавить email</a>
+	<a class="colored-a lang" onclick="$('.email_to_wrap').show(100)"  data-lang="add_emails">Добавить email</a>
 	<div class="email_to_wrap" style="display:none">
 	    <p style="font-size: 12px;">Укажете электронные почты через запятую для дублирования сообщения.
 		Например: my@mail.ru или my@mail.ru, test@gmail.com </p>
@@ -81,11 +80,5 @@
 	<div  class="inbox_content_cols">
 
 	</div>
-	<div  class="hide_in_full_version">
-	    <center>
-		<a  class="lang" data-lang="text_free_version" onclick='$.mobile.navigate("#paypage");' style="text-decoration: underline;color:#222;" >У вас бесплатная версия</a>
-	    </center>
-	</div>
-
     </div>
 </form>

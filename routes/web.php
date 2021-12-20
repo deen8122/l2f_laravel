@@ -24,24 +24,4 @@ Route::get('/test/test', [App\Http\Controllers\TestController::class, 'test']);
 Route::post('/letter/add', [LetterController::class, 'add']);
 require __DIR__ . '/auth.php';
 
-function l($arr) {
-	echo '<pre>';
-	print_r($arr);
-	echo '</pre>';
-}
 
-function log2file($name, $arr, $isUpdate = false) {
-	ob_start();
-	print_r($arr);
-	if ($isUpdate) {
-		$log = ob_get_contents();
-		$log2 = file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/../storage/logs/" . $name . ".txt");
-		$log2 = $log . '
-			--------------
-			' . $log2;
-		file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/../storage/logs/" . $name . ".txt", $log2);
-	} else {
-		file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/../storage/logs/" . $name . ".txt", ob_get_contents());
-	}
-	ob_clean();
-}
