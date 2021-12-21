@@ -48,7 +48,8 @@ $(document).on("pageshow", "#main", function (event) {
 
 });
 
-function plus() {}
+function plus() {
+}
 
 //------------- ИНИЙИАЛИЗАЦИЯ -------------------
 function InitApp() {
@@ -79,26 +80,69 @@ function InitApp() {
 
     $('#select-photo-btn').show();
 
-    let url = serverName + 'api/profile';
-    console.log(url);
+    axios.get('/sanctum/csrf-cookie').then(response => {
+        console.log(response);
+        axios.get('/profile').then(response => {
+            console.log(response);
+            //doRequest('/api/profile', 'get', function () {});
+        });
+        //doRequest('/api/profile', 'get', function () {});
+    });
 
-    $.ajax({type: 'GET',
+    /*
+     doRequest('/sanctum/csrf-cookie', 'get', function () {
+     doRequest('/api/profile', 'get', function () {});
+     });
+     */
+
+
+}
+
+function doRequest(url, method, success, error) {
+    url = serverName + url;
+    console.log('-- doRequest ' + method + ' ' + url + ' --');
+    let csrf = $('meta[name="csrf-token"]').attr('content');
+    console.log('-- ' + csrf + ' --');
+    /*
+     $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+     // jqXHR.setRequestHeader('X-CSRFToken', csrf);
+     
+     });
+     */
+    $.ajaxSetup({
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': csrf
+        }
+    });
+    $.ajax({
+        type: method,
         beforeSend: function (xhr) {
-            xhr.withCredentials = true;
+
+            //  xhr.withCredentials = true;
+
         },
-        data: {}, url: url,
+      //  headers: {"Authorization": localStorage.getItem('token')},
+        datatype: "json",
+        data: {_token: csrf}, url: url,
         success: function (responce) {
+            console.log(url + '-- success --');
             console.log(responce);
+            if (success) {
+                success(responce);
+            }
+
         },
         error: function (responce) {
-            console.log(responce);
+            console.log(url + '-- error --');
+            console.log(responce.responseJSON);
+            if (error) {
+                error(responce)
+            }
+
         }
     });
 }
-
-
-
-
 
 //--------------------------------------------------
 $(document).on("pageshow", "#inbox", function (event) {
@@ -107,30 +151,6 @@ $(document).on("pageshow", "#inbox", function (event) {
 );
 
 var pn = 0;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //--------------------------------------------------
@@ -176,7 +196,8 @@ $(document).on("pageshow", "#inbox_detail", function (event) {
                         }
                     });
             //Обновлем параметр о том что прочтен
-            db.updateData("DATA", "id=" + obj.id, ['opened'], [0], function (row) { })
+            db.updateData("DATA", "id=" + obj.id, ['opened'], [0], function (row) {
+            })
         }
     })
 });
@@ -187,6 +208,7 @@ function OpenInbox(_this, id) {
     $('.inbox_detail').html('');
     $.mobile.navigate("#inbox_detail");
 }
+
 function CloseMessage() {
     $('.layer-succes1').css('right', 0);
     $('.layer-succes2').css('bottom', 0);
@@ -204,12 +226,14 @@ function CloseMessage() {
     });
 
 }
+
 function SetMessageShowed(idMessage) {
     db.updateData("DATA", "id=" + idMessage, ['showed'], [1], function (row) {
     })
 }
+
 /*
- * 
+ *
  * Выводит список сообщений
  */
 function UpdateMessageList() {

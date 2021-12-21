@@ -7,17 +7,23 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Jobs\ProcessSendingEmail;
 use Validator;
+use App\Helpers\ImageSaver;
 
 class LetterController extends Controller {
+
+	private $imageSaver;
+
+	public function __construct(ImageSaver $imageSaver) {
+		$this->imageSaver = $imageSaver;
+	}
 
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index() {
-		$user = auth()->user();
-		$letters = Letter::orderBy('id', 'desc')->where('user_id', $user->id)->paginate(10);
+	public function letters() {
+		$letters = Letter::orderBy('id', 'desc')->hasUser()->notSended()->paginate(10);
 		return response()->json($letters, 200);
 	}
 
@@ -31,13 +37,17 @@ class LetterController extends Controller {
 		$input = $request->all();
 		$validator = Validator::make($input, [
 				'text' => 'required',
-				'future_time' => 'required',
+				'future_time' => 'required|integer|min:6',
 		]);
 		if ($validator->fails()) {
 			return $this->sendError('Validation Error.', $validator->errors());
 		}
 		$letter = Letter::create($input);
-		$this->saveImages($request, $letter);
+		//$this->saveImages($request, $letter);
+		if ($request->hasFile('images')) {
+			$this->imageSaver->upload($request->file('images'),$letter);
+		}
+
 		return $this->sendResponse($letter->toArray(), 'Item created successfully');
 	}
 
@@ -74,15 +84,7 @@ class LetterController extends Controller {
 		return $letter;
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  \App\Models\Letter  $letter
-	 * @return \Illuminate\Http\Response
-	 */
-	public function edit(Letter $letter) {
-		return $letter = Letter::where('user_id', $user->id)->find($id);
-	}
+
 
 	/**
 	 * Get all not sending letters for current user
@@ -91,7 +93,7 @@ class LetterController extends Controller {
 	 * @return int
 	 */
 	public function count() {
-		return response()->json(["count" => Letter::HasUser(auth()->user()->id)->count()]);
+		return response()->json(["count" => Letter::hasUser()->count()]);
 	}
 
 }

@@ -24,7 +24,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 	Route::get('/profile', [UserController::class, 'profile']);
 	Route::post('/logout', [AuthController::class, 'logout']);
 	
-	
+	Route::get('/letters', [LetterController::class, 'letters']);
 	Route::get('/letter/count', [LetterController::class, 'count']);
 	Route::post('/letter/add', [LetterController::class, 'add']);
 	Route::get('/letter/{id}', [LetterController::class, 'show']);

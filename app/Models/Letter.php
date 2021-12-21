@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Log;
 use Str;
+use Illuminate\Database\Eloquent\Builder;
 
 class Letter extends Model {
 
@@ -13,7 +14,7 @@ class Letter extends Model {
 
 	protected $fillable = [
 		'text',
-		//'images',
+		'future_time',
 		//'data'
 	];
 
@@ -37,32 +38,11 @@ class Letter extends Model {
 
 		static::creating(function($item) {
 			Log::info('Creating event call: ' . $item);
-			$item->id2 = 0;
 			$item->created_time = time();
-			$item->future_time = time();
+			//$item->future_time = time();
 			$item->user_id = auth()->user()->id;
 		});
 
-
-
-		static::created(function($item) {
-			Log::info('Created event call: ' . $item);
-		});
-
-
-		static::updating(function($item) {
-
-			Log::info('Updating event call: ' . $item);
-			//$item->data = rand(99, 9999) . '==' . Str::slug($item->text);
-		});
-
-		static::updated(function($item) {
-			Log::info('Updated event call: ' . $item);
-		});
-
-		static::deleted(function($item) {
-			Log::info('Deleted event call: ' . $item);
-		});
 	}
 
 	public function user() {
@@ -87,5 +67,9 @@ class Letter extends Model {
 		$user = auth()->user();
 		return $query->where('user_id', $user->id);
 	}
-	
+
+	public function scopeNotSended($query) {
+		return $query->where('future_time', '<=',time());
+	}
+
 }

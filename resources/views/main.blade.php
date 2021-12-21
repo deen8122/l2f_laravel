@@ -1,15 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Laravel 5.8 CRUD Example Tutorial</title>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
-    </head>
-    <body>
-	<div class="container">
-	    @yield('content')
+
+
+@extends('layouts.app')
+
+@section('content')
+<form id="letterform" method="post"  enctype="multipart/form-data">
+    <div class="div-center xdiv-color-1">
+	<!-- <h4>Текст письма</h4> -->
+
+	<textarea class="lang" 
+		  data-lang="msgPH" 
+		  data-langtype="placeholder" 
+		  id="message" 
+		  placeholder="Введите текст письма" 
+		  style="min-height: 150px!important;"></textarea>
+	<br/> <br/>
+
+	<div class="clear"></div>
+	<br/>
+	<a id="select-photo-btn"  class="lang" data-lang="addpicture" onclick="picture_select()">Прикрепить фото</a>
+	<input type="file"id="image" name="images[]">
+
+	<div id="smallImage">  
+
 	</div>
-    </body>
-</html>
+
+	<div style="clear: both"></div>
+    </div>
+
+    <div class="div-center xdiv-color-2">
+	<b style="color:#555" class="lang" data-lang="date_reciev">Время получения</b>
+	<table>
+	    <tr>
+		<td>
+		    <span class="lang" data-lang="date" >Дата:</span>
+		    <input 
+			type="date" 
+			id="date" 
+			class="datepicker-here"  
+			data-date-format="yyyy-mm-dd" 
+
+			data-position="top left"
+			>
+		</td>
+		<td>
+		    <span class="lang" data-lang="time" >Время:</span>
+		    <input type="time" id="time" >
+		</td>
+	    </tr>
+	</table>
+
+	<select id="futuretime" onchange="setFutureTime()">
+	    <option value="tomorrow" class="lang" data-lang="option1" > Завтра</option>
+	    <option value="week1" class="lang" data-lang="option2"> Неделя</option>
+	    <option value="1" class="lang" data-lang="option3"> 1 месяц</option>
+	    <option value="3" class="lang" data-lang="option4"> 3 месяца</option>
+	    <option value="6" class="lang" data-lang="option5"> пол года</option>
+	    <option value="12" class="lang" data-lang="option6"> 1 год</option>
+	    <option value="24" class="lang" data-lang="option6"> 2 года</option>
+	    <option value="60" class="lang" data-lang="option6"> 5 лет</option>
+	</select>
+    </div>  
+
+    <div class="div-center xdiv-color-2 xshow_in_full_version">
+	<a class="colored-a lang" onclick="$('.email_to_wrap').show(100)"  data-lang="add_emails">Добавить email</a>
+	<div class="email_to_wrap" style="display:none">
+	    <p style="font-size: 12px;">Укажете электронные почты через запятую для дублирования сообщения.
+		Например: my@mail.ru или my@mail.ru, test@gmail.com </p>
+	    <input type="text" id="emails"  placeholder="my@mail.ru, test@mail.ru" >
+	    <a class="colored-a" onclick="$('.email_to_wrap').hide(100)">свернуть...</a>
+	</div>
+
+    </div>
+
+
+    <div class="div-center div-color div-color-none">
+	<!--<div class="btn btn-send" onclick="SynSendImagesToServer()">SynSendImagesToServer()</div>-->
+	<!--   <div class="btn btn-send" onclick="NotificationSet()">NotificationSet()</div> -->
+	<div class="btn btn-send lang" onclick="Send()" data-lang="send_btn">Отправить в будущее</div>
+	<br/>
+
+
+	<div id="log" style="display:none;width:100%; background: #fff;font-size: 10px;overflow: scroll;max-height: 200px"></div>
+
+	<div  class="inbox_content_cols"></div>
+    </div>
+</form>
+
+
+
+@endsection

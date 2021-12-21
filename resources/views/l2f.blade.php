@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/l2f/css/jquery.mobile.icons.min.css" />
         <link href="/l2f/css/jquery.mobile.structure-1.4.5.min.css" rel="stylesheet">
         <link rel="stylesheet" href="/l2f/css/bl.min.css" />
-
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="/l2f/lib/jquery.min.js"></script>
         <script src="/l2f/css/jquery.mobile-1.4.5.min.js"></script>  
 
@@ -37,9 +37,9 @@
     <body>
 
 	@include('l2f.layers')
-
+	
         <div data-role="page" id="main">
-	    @include('l2f.menu')
+
 
             <!-- PANEL -->
             <div data-theme="a" data-role="header" style="z-index: 999">
@@ -205,5 +205,7 @@
              left: 0;">
 
         </div>
+	
+	@include('l2f.menu')
     </body>
 </html>

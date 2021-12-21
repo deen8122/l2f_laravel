@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LetterController;
+use App\Http\Controllers\Api\AuthController;
 
 /*
   |--------------------------------------------------------------------------
@@ -16,9 +17,21 @@ use App\Http\Controllers\LetterController;
  */
 //Route::get('/vue', 'App\Http\Controllers\SpaController@index')->where('any', '.*');
 Route::get('/', function () {
+	return view('main');
+});
+Route::get('/about', function () {
+	return view('about');
+});
+Route::get('/letters', function () {
+	return view('letters');
+});
+Route::get('/l2f', function () {
 	return view('l2f');
 });
-//Route::get('/login', [LoginController::class, 'login']);
+Route::get('/profile', function () {
+	return auth()->user();
+})->middleware('auth');
+Route::get('/login', [AuthController::class, 'login']);
 Route::get('/test', [App\Http\Controllers\TestController::class, 'userInfo']);
 Route::get('/test/test', [App\Http\Controllers\TestController::class, 'test']);
 Route::post('/letter/add', [LetterController::class, 'add']);
