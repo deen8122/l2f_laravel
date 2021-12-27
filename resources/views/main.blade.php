@@ -1,7 +1,7 @@
 
 
 @extends('layouts.app')
-
+@section('title', 'Отправить письмо в будущее')
 @section('content')
 <form id="letterform" method="post"  enctype="multipart/form-data">
     <div class="div-center xdiv-color-1">
@@ -74,9 +74,13 @@
 
 
     <div class="div-center div-color div-color-none">
-	<!--<div class="btn btn-send" onclick="SynSendImagesToServer()">SynSendImagesToServer()</div>-->
-	<!--   <div class="btn btn-send" onclick="NotificationSet()">NotificationSet()</div> -->
-	<div class="btn btn-send lang" onclick="Send()" data-lang="send_btn">Отправить в будущее</div>
+
+	@if (Auth::check())
+	<div class="btn btn-send lang" onclick="sendLetter()" data-lang="send_btn">Отправить в будущее</div>
+	@else
+	<a class="btn btn-send lang" href="/login">Необходимо авторизоваться</a>
+	@endif
+
 	<br/>
 
 

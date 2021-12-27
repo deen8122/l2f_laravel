@@ -1,3 +1,23 @@
+
+function setTomorrowDate() {
+    let today = new Date();
+    let month = dateAdd(today, 'day', 1);
+    // month =  month.toISOString().substr(0, 10);
+    // console.log(month);
+    $('#date').val(month.toISOString().substr(0, 10));
+    // $('#date').val(today.getDay()+"."+ today.getMonth()+"."+today.getFullYear());
+    let h = today.getHours();
+    if (h < 10) {
+        h = '0' + h;
+    }
+    let s = today.getMinutes();
+    if (s < 10) {
+        s = '0' + s;
+    }
+    let time = h + ':' + s;
+    // alert(time);
+    $('#time').val(time);
+}
 function setFutureTime() {
     var timeMonth = $('#futuretime').val();
 
@@ -61,7 +81,7 @@ function dateAdd(date, interval, units) {
 
 //Возращает читаемый вид даты из timestamp
 function getNormalDate(date) {
-    var ret = new Date(date*1000);
+    var ret = new Date(date * 1000);
     var month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
     // сколонение месяцев.
     var day = ret.getDate();
@@ -94,6 +114,11 @@ function DateToTimestump(date, time2) {
     console.log(y);
     console.log(m);
     console.log(d);
-    return new Date(y, m, d, h, min).getTime()/1000;
+    return new Date(y, m, d, h, min).getTime() / 1000;
     // return new Date(newDate).getTime();
+}
+
+function updateUrl(urlPath){
+  //  document.title = response.pageTitle;
+     window.history.pushState(urlPath,"", urlPath);
 }

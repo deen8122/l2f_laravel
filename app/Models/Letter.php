@@ -15,7 +15,7 @@ class Letter extends Model {
 	protected $fillable = [
 		'text',
 		'future_time',
-		//'data'
+		'email_to'
 	];
 
 	/*

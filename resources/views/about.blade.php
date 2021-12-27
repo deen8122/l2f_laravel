@@ -1,7 +1,7 @@
 
 
 @extends('layouts.app')
-
+@section('title', 'О программе')
 @section('content')
 <div data-role="header">
     <h1 class="title">О программе</h1>
@@ -25,7 +25,7 @@
 
 
 	<h3>____________________</h3>
-	<div class="btn btn-send" onclick="ShowNotification()">Проверка уведомлений</div>
+	
     </div>          
 </div>
 @endsection

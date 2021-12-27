@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Jobs\ProcessSendingEmail;
 use Validator;
 use App\Helpers\ImageSaver;
-
+use App\Http\Resources\LetterResource;
 class LetterController extends Controller {
 
 	private $imageSaver;
@@ -43,31 +43,11 @@ class LetterController extends Controller {
 			return $this->sendError('Validation Error.', $validator->errors());
 		}
 		$letter = Letter::create($input);
-		//$this->saveImages($request, $letter);
 		if ($request->hasFile('images')) {
-			$this->imageSaver->upload($request->file('images'),$letter);
+			$this->imageSaver->upload($request->file('images'), $letter);
 		}
 
 		return $this->sendResponse($letter->toArray(), 'Item created successfully');
-	}
-
-	public function saveImages(Request $request, Letter $letter) {
-		if ($request->hasFile('images')) {
-			$files = $request->file('images');
-			foreach ($files as $file) {
-				$filenameWithExt = $file->getClientOriginalName();
-				$extention = $file->getClientOriginalExtension();
-				$filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-				$newFileName = $letter->id . '_' . $filename . "." . $extention;
-				$fileNameToStore = 'image/' . $newFileName;
-				$path = $file->storeAs('public', $fileNameToStore);
-				$images = new Image;
-				$images->letter_id = $letter->id;
-				$images->filename_origin = $filenameWithExt;
-				$images->filename = $newFileName;
-				$images->save();
-			}
-		}
 	}
 
 	/**
@@ -77,14 +57,25 @@ class LetterController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show(int $id) {
-		$letter = Letter::HasUser(auth()->user()->id)->find($id);
+		$letter = Letter::with('images')->find($id);
+		//$letter = Letter::hasUser()->with('images')->find($id);
+		
 		if (!$letter) {
 			return $this->sendError('Item not found', false);
 		}
-		return $letter;
+		//dd($letter);
+		return new LetterResource($letter);
+		
+		/*
+		if ($letter->images()) {
+			foreach ($letter->images() as &$image) {
+				$image->full_path =  Storage::disk('public')->url($image->filename);
+			}
+		}
+		return $this->sendResponse($letter->toArray(), 'Item created successfully');;
+		 * 
+		 */
 	}
-
-
 
 	/**
 	 * Get all not sending letters for current user

@@ -19,6 +19,9 @@ use App\Http\Controllers\Api\AuthController;
 Route::get('/', function () {
 	return view('main');
 });
+Route::get('/letter/{id}', function () {
+	return view('main');
+});
 Route::get('/about', function () {
 	return view('about');
 });
@@ -31,6 +34,7 @@ Route::get('/l2f', function () {
 Route::get('/profile', function () {
 	return auth()->user();
 })->middleware('auth');
+
 Route::get('/login', [AuthController::class, 'login']);
 Route::get('/test', [App\Http\Controllers\TestController::class, 'userInfo']);
 Route::get('/test/test', [App\Http\Controllers\TestController::class, 'test']);

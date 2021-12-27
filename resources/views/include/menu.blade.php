@@ -9,8 +9,9 @@
 	    </li>
 	    <li>
 		<span class="icon1 icon-inbox"></span>
-		<a data-href="/letters" onclick="getLetters()" class="deen-btn lang ui-btn ui-btn-icon-right ui-icon-carat-r" data-lang="menu_letters">Письма 
-		    <span class="inbox-col" id="inbox-col"></span>
+		<a data-href="/letters" onclick="getLetters()" 
+		   class="deen-btn lang ui-btn ui-btn-icon-right ui-icon-carat-r" data-lang="menu_letters">Письма 
+		    
 		</a>
 	    </li>
 	    <li>
@@ -19,7 +20,7 @@
 	    </li>
 	    <li class="hide_in_full_version">
 		<span class="icon1 icon-buy"></span>
-		<a class="deen-btn lang ui-btn ui-btn-icon-right ui-icon-carat-r" data-lang="menu_fullversion">Полная версия</a>
+		<a href="/full-version" class="deen-btn lang ui-btn ui-btn-icon-right ui-icon-carat-r" data-lang="menu_fullversion">Полная версия</a>
 	    </li>
 	    <li>
 		<span class="icon1 icon-config"></span>
@@ -28,7 +29,7 @@
 
 	    <li class="ui-last-child">
 		<span class="icon1 icon-exit"></span>
-		<a href="/profile" class="deen-btn lang ui-btn ui-btn-icon-right ui-icon-carat-r" data-lang="menu_exit">Выйти</a>
+		<a href="/profile" class="deen-btn lang ui-btn ui-btn-icon-right ui-icon-carat-r" data-lang="menu_exit">Настройки</a>
 	    </li>
 	</ul>
 
